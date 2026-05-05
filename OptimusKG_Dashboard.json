@@ -1,0 +1,409 @@
+{
+  "version": 2,
+  "title": "OptimusKG",
+  "description": "Data source: Vittor, L. et al. OptimusKG: Unifying biomedical knowledge in a modern multimodal graph. In Review (2026).",
+  "pages": [
+    {
+      "id": "0",
+      "version": 1,
+      "title": "Summary",
+      "widgets": [
+        {
+          "version": 1,
+          "title": "Relationship Count",
+          "w": 6,
+          "h": 4,
+          "x": 5,
+          "y": 4,
+          "meta": {
+            "latestCypherQueries": [
+              {
+                "query": "CYPHER runtime=parallel\nMATCH ()-[n]->()\nRETURN type(n) as type, count(n) as qty",
+                "origin": "user"
+              },
+              {
+                "query": "MATCH ()-[n]->()\nRETURN type(n) as type, count(n) as qty",
+                "origin": "user"
+              },
+              {
+                "query": "MATCH (n)\nRETURN labels(n)[0] as label, count(n) as qty",
+                "origin": "user"
+              },
+              {
+                "query": "MATCH (n)\nRETURN labels(n) as label, count(n) as qty",
+                "origin": "user"
+              }
+            ]
+          },
+          "settings": {
+            "type": "table",
+            "query": "CYPHER runtime=parallel\nMATCH ()-[n]->()\nRETURN type(n) as type, count(n) as qty\nORDER BY qty DESC",
+            "databaseName": "neo4j",
+            "actions": [],
+            "version": 1,
+            "richRenderCells": false,
+            "enableRecordsDownload": true
+          }
+        },
+        {
+          "version": 1,
+          "title": "Graph Data Model",
+          "w": 8,
+          "h": 4,
+          "x": 3,
+          "y": 0,
+          "meta": {
+            "latestCypherQueries": [
+              {
+                "query": "CALL db.schema.visualization()",
+                "origin": "user"
+              }
+            ]
+          },
+          "settings": {
+            "type": "graph",
+            "query": "CALL db.schema.visualization()",
+            "databaseName": "neo4j",
+            "version": 2,
+            "enableSidePanel": true,
+            "enableContextMenu": true,
+            "layout": {
+              "type": "d3Force"
+            },
+            "enableDownloadImage": true
+          }
+        },
+        {
+          "version": 1,
+          "title": "Relationships",
+          "w": 3,
+          "h": 2,
+          "x": 0,
+          "y": 2,
+          "meta": {
+            "latestCypherQueries": [
+              {
+                "query": "MATCH ()-[n]->()\nRETURN count(n)",
+                "origin": "user"
+              },
+              {
+                "query": "MATCH ()-(n)->()\nRETURN count(n)",
+                "origin": "user"
+              },
+              {
+                "query": "MATCH ()-(n)->() RETURN count(n)",
+                "origin": "user"
+              },
+              {
+                "query": "MATCH (n) RETURN count(n)",
+                "origin": "user"
+              }
+            ]
+          },
+          "settings": {
+            "type": "singleValue",
+            "query": "MATCH ()-[n]->() \nRETURN count(n)",
+            "databaseName": "neo4j",
+            "version": 1,
+            "fontSize": null,
+            "textColor": null,
+            "align": 4
+          }
+        },
+        {
+          "version": 1,
+          "title": "Labels Count",
+          "w": 5,
+          "h": 4,
+          "x": 0,
+          "y": 4,
+          "meta": {
+            "latestCypherQueries": [
+              {
+                "query": "MATCH (n)\nRETURN labels(n)[0] as label, count(n) as qty\nORDER BY qty DESC",
+                "origin": "user"
+              },
+              {
+                "query": "MATCH (n)\nRETURN labels(n)[0] as label, count(n) as qty",
+                "origin": "user"
+              },
+              {
+                "query": "MATCH (n)\nRETURN labels(n) as label, count(n) as qty",
+                "origin": "user"
+              }
+            ]
+          },
+          "settings": {
+            "type": "table",
+            "query": "MATCH (n) \nRETURN labels(n)[0] as label, count(n) as qty\nORDER BY qty DESC",
+            "databaseName": "neo4j",
+            "actions": [],
+            "version": 1,
+            "richRenderCells": false,
+            "enableRecordsDownload": true
+          }
+        },
+        {
+          "version": 1,
+          "title": "Nodes",
+          "w": 3,
+          "h": 2,
+          "x": 0,
+          "y": 0,
+          "meta": {
+            "latestCypherQueries": [
+              {
+                "query": "MATCH (n) RETURN count(n)",
+                "origin": "user"
+              }
+            ]
+          },
+          "settings": {
+            "type": "singleValue",
+            "query": "MATCH (n) RETURN count(n)",
+            "databaseName": "neo4j",
+            "version": 1,
+            "fontSize": null,
+            "textColor": null,
+            "align": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "1",
+      "version": 1,
+      "title": "Queries",
+      "widgets": [
+        {
+          "version": 1,
+          "title": "Which intermediate gene connects TP53 to BRCA1 in exactly 2 hops?",
+          "description": "Variable-length path between two specific genes — the essence of graph traversal",
+          "w": 12,
+          "h": 4,
+          "x": 0,
+          "y": 9,
+          "meta": {
+            "latestCypherQueries": [
+              {
+                "query": "CYPHER runtime=parallel\nMATCH (g1:Gene {symbol: 'TP53'})\n      -[:INTERACTS_WITH]-(mid:Gene)\n      -[:INTERACTS_WITH]-(g2:Gene {symbol: 'BRCA1'})\nRETURN mid.symbol AS intermediate_gene, mid.name AS name\nLIMIT 50",
+                "origin": "user"
+              },
+              {
+                "query": "CYPHER runtime=parallel\nMATCH (g1:Gene {symbol: 'TP53'})\n      -[:INTERACTS_WITH]-(mid:Gene)\n      -[:INTERACTS_WITH]-(g2:Gene {symbol: 'BRCA1'})\nRETURN mid.symbol AS intermediate_gene, mid.name AS name\nLIMIT 10",
+                "origin": "user"
+              }
+            ]
+          },
+          "settings": {
+            "type": "table",
+            "query": "CYPHER runtime=parallel\nMATCH (g1:Gene {symbol: 'TP53'})\n      -[:INTERACTS_WITH]-(mid:Gene)\n      -[:INTERACTS_WITH]-(g2:Gene {symbol: 'BRCA1'})\nRETURN mid.symbol AS intermediate_gene, mid.name AS name\nLIMIT 50",
+            "databaseName": "neo4j",
+            "actions": [],
+            "version": 1,
+            "richRenderCells": false,
+            "enableRecordsDownload": true
+          }
+        },
+        {
+          "version": 1,
+          "title": "Which approved drugs target genes shared between cancer and diabetes?",
+          "description": "Set intersection via graph — a gene belongs to two disease clusters simultaneously",
+          "w": 12,
+          "h": 4,
+          "x": 0,
+          "y": 5,
+          "meta": {
+            "latestCypherQueries": [
+              {
+                "query": "CYPHER runtime=parallel\nMATCH (d1:Disease)-[:ASSOCIATED_WITH]->(g:Gene)<-[:ASSOCIATED_WITH]-(d2:Disease)\nWHERE toLower(d1.name) CONTAINS 'cancer'\n  AND toLower(d2.name) CONTAINS 'diabetes'\nMATCH (drug:Drug)-[:INHIBITOR|ANTAGONIST|AGONIST]->(g)\nWHERE drug.is_approved = true\nRETURN drug.name, collect(DISTINCT g.symbol) AS genes,\n       count(DISTINCT g) AS total\nORDER BY total DESC LIMIT 5",
+                "origin": "user"
+              }
+            ]
+          },
+          "settings": {
+            "type": "table",
+            "query": "CYPHER runtime=parallel\nMATCH (d1:Disease)-[:ASSOCIATED_WITH]->(g:Gene)<-[:ASSOCIATED_WITH]-(d2:Disease)\nWHERE toLower(d1.name) CONTAINS 'cancer'\n  AND toLower(d2.name) CONTAINS 'diabetes'\nMATCH (drug:Drug)-[:INHIBITOR|ANTAGONIST|AGONIST]->(g)\nWHERE drug.is_approved = true\nRETURN drug.name, collect(DISTINCT g.symbol) AS genes,\n       count(DISTINCT g) AS total\nORDER BY total DESC LIMIT 5",
+            "databaseName": "neo4j",
+            "actions": [],
+            "version": 1,
+            "richRenderCells": false,
+            "enableRecordsDownload": true
+          }
+        },
+        {
+          "version": 1,
+          "title": "Which pesticide exposures are linked to overlapping sets of diseases?",
+          "description": "Bipartite graph Exposure → Disease exposes shared disease risk across different chemical agents",
+          "w": 12,
+          "h": 4,
+          "x": 0,
+          "y": 25,
+          "meta": {
+            "latestCypherQueries": [
+              {
+                "query": "CYPHER runtime=parallel\nMATCH path=(exp:Exposure)-[:LINKED_TO]->(d:Disease)\nWHERE exp.name IN ['Pesticides','Dieldrin','Dichlorvos','Parathion','Dimethoate']\nRETURN path",
+                "origin": "user"
+              }
+            ]
+          },
+          "settings": {
+            "type": "graph",
+            "query": "CYPHER runtime=parallel\nMATCH path=(exp:Exposure)-[:LINKED_TO]->(d:Disease)\nWHERE exp.name IN ['Pesticides','Dieldrin','Dichlorvos','Parathion','Dimethoate']\nRETURN path",
+            "databaseName": "neo4j",
+            "version": 2,
+            "enableSidePanel": true,
+            "enableContextMenu": true,
+            "layout": {
+              "type": "d3Force"
+            },
+            "enableDownloadImage": true
+          }
+        },
+        {
+          "version": 1,
+          "title": "How do REGORAFENIB, DASATINIB and SORAFENIB connect to cancer types through shared gene targets?",
+          "description": "Tripartite graph Drug → Gene → Disease reveals which genes act as therapeutic hubs across multiple cancers",
+          "w": 12,
+          "h": 4,
+          "x": 0,
+          "y": 21,
+          "meta": {
+            "latestCypherQueries": [
+              {
+                "query": "CYPHER runtime=parallel\nMATCH path=(drug:Drug)-[r:INHIBITOR|TARGET]->(g:Gene)<-[:ASSOCIATED_WITH]-(d:Disease)\nWHERE drug.name IN ['REGORAFENIB','DASATINIB','SORAFENIB']\n  AND d.name IN ['breast cancer','lung cancer','leukemia','prostate cancer']\nRETURN path",
+                "origin": "user"
+              },
+              {
+                "query": "CYPHER runtime=parallel\nMATCH path=(g:Gene {symbol: 'TP53'})-[:INTERACTS_WITH]-(n:Gene)\nWITH path, g, n LIMIT 15\nOPTIONAL MATCH path2=(n)-[:ASSOCIATED_WITH]-(d:Disease)\nRETURN path,path2",
+                "origin": "user"
+              },
+              {
+                "query": "CYPHER runtime=parallel\nMATCH path=(g:Gene {symbol: 'TP53'})-[:INTERACTS_WITH]-(n:Gene)\nWITH g, n LIMIT 15\nOPTIONAL MATCH path2=(n)-[:ASSOCIATED_WITH]-(d:Disease)\nRETURN path,path2",
+                "origin": "user"
+              },
+              {
+                "query": "CYPHER runtime=parallel\nMATCH (g:Gene {symbol: 'TP53'})-[:INTERACTS_WITH]-(n:Gene)\nWITH g, n LIMIT 15\nOPTIONAL MATCH (n)-[:ASSOCIATED_WITH]-(d:Disease)\nRETURN *",
+                "origin": "user"
+              },
+              {
+                "query": "CYPHER runtime=parallel\nMATCH (g:Gene {symbol: 'TP53'})-[:INTERACTS_WITH]-(n:Gene)\nWITH g, n LIMIT 15\nOPTIONAL MATCH (n)-[:ASSOCIATED_WITH]-(d:Disease)\nRETURN g.symbol AS center, n.symbol AS gene,\n       count(DISTINCT d) AS disease_count",
+                "origin": "user"
+              }
+            ]
+          },
+          "settings": {
+            "type": "graph",
+            "query": "CYPHER runtime=parallel\nMATCH path=(drug:Drug)-[r:INHIBITOR|TARGET]->(g:Gene)<-[:ASSOCIATED_WITH]-(d:Disease)\nWHERE drug.name IN ['REGORAFENIB','DASATINIB','SORAFENIB']\n  AND d.name IN ['breast cancer','lung cancer','leukemia','prostate cancer']\nRETURN path",
+            "databaseName": "neo4j",
+            "version": 2,
+            "enableSidePanel": true,
+            "enableContextMenu": true,
+            "layout": {
+              "type": "d3Force"
+            },
+            "enableDownloadImage": true
+          }
+        },
+        {
+          "version": 1,
+          "title": "Which environmental exposures are linked to diseases with more than 3 drugs under investigation?",
+          "description": "3-entity chain: Exposure → Disease → Drug, with aggregation filter in the middle",
+          "w": 12,
+          "h": 4,
+          "x": 0,
+          "y": 17,
+          "meta": {
+            "latestCypherQueries": [
+              {
+                "query": "CYPHER runtime=parallel\nMATCH (exp:Exposure)-[:LINKED_TO]->(d:Disease)\n      <-[:INDICATION]-(drug:Drug)\nWITH exp, d, count(DISTINCT drug) AS drug_count\nWHERE drug_count > 3\nRETURN exp.name AS exposure, d.name AS disease, drug_count\nORDER BY drug_count DESC LIMIT 10",
+                "origin": "user"
+              }
+            ]
+          },
+          "settings": {
+            "type": "table",
+            "query": "CYPHER runtime=parallel\nMATCH (exp:Exposure)-[:LINKED_TO]->(d:Disease)\n      <-[:INDICATION]-(drug:Drug)\nWITH exp, d, count(DISTINCT drug) AS drug_count\nWHERE drug_count > 3\nRETURN exp.name AS exposure, d.name AS disease, drug_count\nORDER BY drug_count DESC LIMIT 10",
+            "databaseName": "neo4j",
+            "actions": [],
+            "version": 1,
+            "richRenderCells": false,
+            "enableRecordsDownload": true
+          }
+        },
+        {
+          "version": 1,
+          "title": "For which disease does one drug have an indication while another is contraindicated?",
+          "description": "Therapeutic conflict detection — two opposing relationship directions converging on the same node",
+          "w": 12,
+          "h": 4,
+          "x": 0,
+          "y": 13,
+          "meta": {
+            "latestCypherQueries": [
+              {
+                "query": "CYPHER runtime=parallel\nMATCH (drug:Drug)-[:INDICATION]->(disease:Disease)\n      <-[:CONTRAINDICATION]-(drug2:Drug)\nWHERE drug <> drug2\nRETURN disease.name AS disease,\n       drug.name AS indicated,\n       drug2.name AS contraindicated\nLIMIT 8",
+                "origin": "user"
+              }
+            ]
+          },
+          "settings": {
+            "type": "table",
+            "query": "CYPHER runtime=parallel\nMATCH (drug:Drug)-[:INDICATION]->(disease:Disease)\n      <-[:CONTRAINDICATION]-(drug2:Drug)\nWHERE drug <> drug2\nRETURN disease.name AS disease,\n       drug.name AS indicated,\n       drug2.name AS contraindicated\nLIMIT 8",
+            "databaseName": "neo4j",
+            "actions": [],
+            "version": 1,
+            "richRenderCells": false,
+            "enableRecordsDownload": true
+          }
+        },
+        {
+          "version": 1,
+          "title": "Which genes act as \"molecular bridges\" between Alzheimer's and Parkinson's?",
+          "description": "2-hop graph traversal (Gene → Gene) anchored simultaneously on two disease sets",
+          "w": 12,
+          "h": 5,
+          "x": 0,
+          "y": 0,
+          "meta": {
+            "latestCypherQueries": [
+              {
+                "query": "CYPHER runtime=parallel\nMATCH (d1:Disease) WHERE toLower(d1.name) CONTAINS 'alzheimer'\nMATCH (d2:Disease) WHERE toLower(d2.name) CONTAINS 'parkinson'\nMATCH path=(d1)-[:ASSOCIATED_WITH]->(g1:Gene)\n      -[:INTERACTS_WITH]->(g2:Gene)<-[:ASSOCIATED_WITH]-(d2)\nRETURN path\nLIMIT 1000",
+                "origin": "user"
+              },
+              {
+                "query": "CYPHER runtime=parallel\nMATCH (d1:Disease) WHERE toLower(d1.name) CONTAINS 'alzheimer'\nMATCH (d2:Disease) WHERE toLower(d2.name) CONTAINS 'parkinson'\nMATCH (d1)-[:ASSOCIATED_WITH]->(g1:Gene)\n      -[:INTERACTS_WITH]->(g2:Gene)<-[:ASSOCIATED_WITH]-(d2)\nRETURN g1.symbol AS gene1, g2.symbol AS gene2\nLIMIT 1000",
+                "origin": "user"
+              },
+              {
+                "query": "CYPHER runtime=parallel\nMATCH (d1:Disease) WHERE toLower(d1.name) CONTAINS 'alzheimer'\nMATCH (d2:Disease) WHERE toLower(d2.name) CONTAINS 'parkinson'\nMATCH (d1)-[:ASSOCIATED_WITH]->(g1:Gene)\n      -[:INTERACTS_WITH]->(g2:Gene)<-[:ASSOCIATED_WITH]-(d2)\nRETURN g1.symbol AS gene1, g2.symbol AS gene2",
+                "origin": "user"
+              },
+              {
+                "query": "CYPHER runtime=parallel\nMATCH (d1:Disease) WHERE toLower(d1.name) CONTAINS 'alzheimer'\nMATCH (d2:Disease) WHERE toLower(d2.name) CONTAINS 'parkinson'\nMATCH path=(d1)-[:ASSOCIATED_WITH]->(g1:Gene)\n      -[:INTERACTS_WITH]->(g2:Gene)<-[:ASSOCIATED_WITH]-(d2)\nRETURN path",
+                "origin": "user"
+              },
+              {
+                "query": "CYPHER runtime=parallel\nMATCH (d1:Disease) WHERE toLower(d1.name) CONTAINS 'alzheimer'\nMATCH (d2:Disease) WHERE toLower(d2.name) CONTAINS 'parkinson'\nMATCH (d1)-[:ASSOCIATED_WITH]->(g1:Gene)\n      -[:INTERACTS_WITH]->(g2:Gene)<-[:ASSOCIATED_WITH]-(d2)\nRETURN g1.symbol AS gene1, g2.symbol AS gene2\nLIMIT 10",
+                "origin": "user"
+              }
+            ]
+          },
+          "settings": {
+            "type": "graph",
+            "query": "CYPHER runtime=parallel\nMATCH (d1:Disease) WHERE toLower(d1.name) CONTAINS 'alzheimer'\nMATCH (d2:Disease) WHERE toLower(d2.name) CONTAINS 'parkinson'\nMATCH path=(d1)-[:ASSOCIATED_WITH]->(g1:Gene)\n      -[:INTERACTS_WITH]->(g2:Gene)<-[:ASSOCIATED_WITH]-(d2)\nRETURN path\nLIMIT 1000",
+            "databaseName": "neo4j",
+            "version": 2,
+            "enableSidePanel": true,
+            "enableContextMenu": true,
+            "layout": {
+              "type": "d3Force"
+            },
+            "enableDownloadImage": true
+          }
+        }
+      ]
+    }
+  ],
+  "params": []
+}
