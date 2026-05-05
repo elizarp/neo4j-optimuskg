@@ -23,9 +23,13 @@ in a disease pathway, which drugs target those genes, and which phenotypes they 
 
 ## Prerequisites
 
-### 1. Neo4j Desktop
+### 1. Neo4j instance
 
-Download and install **Neo4j Desktop** to run a local Neo4j instance:
+Choose the option that fits your setup:
+
+**Option A — Neo4j Desktop** *(local, recommended for development)*
+
+Download and install Neo4j Desktop:
 
 **[https://neo4j.com/download/](https://neo4j.com/download/)**
 
@@ -36,6 +40,17 @@ After installing:
 3. Set a name and password (e.g. `optimuskg@123456`), select version **5.x**, then click **Create**
 4. Click **Start** to launch the database
 5. The default connection URI is `neo4j://127.0.0.1:7687`
+
+**Option B — Neo4j AuraDB** *(cloud, for existing Neo4j customers)*
+
+If you already have an [AuraDB](https://neo4j.com/cloud/platform/aura-graph-database/) instance:
+
+1. Log in at [console.neo4j.io](https://console.neo4j.io) and open your instance
+2. Copy the **Connection URI** (starts with `neo4j+s://`)
+3. Use your AuraDB credentials in the notebook configuration cell
+
+> **Note:** AuraDB Free tier has storage limits that may not accommodate the full ~21 M edges.
+> An AuraDB Professional or Enterprise instance is recommended for the complete dataset.
 
 ### 2. Python packages
 
@@ -53,7 +68,7 @@ pip install neo4j-rust-ext optimuskg
 
 ## Quick Start
 
-1. **Start your Neo4j Desktop database** (see above)
+1. **Start your Neo4j instance** — Desktop (local) or AuraDB (cloud); see options above
 2. **Set your credentials** in the notebook — update `NEO4J_URI`, `NEO4J_USERNAME`, and `NEO4J_PASSWORD` in the configuration cell
 3. **Run all cells** — the notebook handles constraint creation, node ingestion, and edge ingestion end-to-end
 
